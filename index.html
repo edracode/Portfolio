@@ -628,6 +628,43 @@
                     setTimeout(() => { status.style.display = 'none'; }, 5000);
                 });
         });
+
+        // --- SOUND EFFECT CONTROLLER ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Audio Sources (Menggunakan CDN yang andal untuk efek suara Sci-Fi)
+            const audioHover = new Audio("https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"); // High tech beep
+            const audioClick = new Audio("https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"); // Sci-fi Click
+            const audioType = new Audio("https://assets.mixkit.co/active_storage/sfx/1361/1361-preview.mp3"); // Mechanical click
+            
+            // Set Volumes
+            audioHover.volume = 0.2; // Tidak terlalu bising
+            audioClick.volume = 0.4;
+            audioType.volume = 0.15;
+
+            // Helper function to play sound (resets time to 0 for rapid playback)
+            const playSound = (audio) => {
+                if (audio) {
+                    audio.currentTime = 0;
+                    // Catch promise to avoid errors if browser blocks autoplay
+                    audio.play().catch(e => console.log("Audio interact required"));
+                }
+            };
+
+            // 1. Hover Effects (Menu, Buttons, Cards, Social)
+            const interactiveElements = document.querySelectorAll('a, button, .glass-card, .social-btn, .nav-menu a, .ach-item');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => playSound(audioHover));
+                
+                // 2. Click Effects
+                el.addEventListener('click', () => playSound(audioClick));
+            });
+
+            // 3. Typing Effects (Inputs)
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => playSound(audioType));
+            });
+        });
     </script>
 </body>
 </html>
